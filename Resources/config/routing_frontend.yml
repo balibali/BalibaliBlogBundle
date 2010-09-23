@@ -1,7 +1,7 @@
 balibali_blog_frontend_index:
     pattern:  /
-    defaults: { _controller: Balibali\BlogBundle:Frontend:index }
+    defaults: { _controller: Balibali\BlogBundle:Post:index }
 
 balibali_blog_frontend_show:
     pattern:  /show/:id
-    defaults: { _controller: Balibali\BlogBundle:Frontend:show }
+    defaults: { _controller: Balibali\BlogBundle:Post:show }

@@ -1,0 +1,9 @@
+frontend show
+
+<div class="post">
+<h1>{{ post.title }}</h1>
+<div class="date">{{ post.publishedAt.format('F d, Y') }}</div>
+<div class="body">{{ post.body|safe }}</div>
+</div>
+
+<p><a href="{% route 'balibali_blog_frontend_index' %}">Back to Index</a></p>

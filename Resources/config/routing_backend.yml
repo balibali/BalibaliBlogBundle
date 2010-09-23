@@ -1,28 +1,28 @@
 balibali_blog_backend_index:
     pattern:  /
-    defaults: { _controller: Balibali\BlogBundle:Backend:index }
+    defaults: { _controller: Balibali\BlogBundle:Post:manage }
 
 balibali_blog_backend_new:
     pattern:  /posts/new
-    defaults: { _controller: Balibali\BlogBundle:Backend:new }
+    defaults: { _controller: Balibali\BlogBundle:Post:new }
     requirements: { _method: get }
 
 balibali_blog_backend_create:
     pattern:  /posts
-    defaults: { _controller: Balibali\BlogBundle:Backend:create }
+    defaults: { _controller: Balibali\BlogBundle:Post:create }
     requirements: { _method: post }
 
 balibali_blog_backend_edit:
     pattern:  /posts/:id/edit
-    defaults: { _controller: Balibali\BlogBundle:Backend:edit }
+    defaults: { _controller: Balibali\BlogBundle:Post:edit }
     requirements: { _method: get }
 
 balibali_blog_backend_update:
     pattern:  /posts/:id
-    defaults: { _controller: Balibali\BlogBundle:Backend:update }
+    defaults: { _controller: Balibali\BlogBundle:Post:update }
     requirements: { _method: put }
 
 balibali_blog_backend_delete:
     pattern:  /posts/:id
-    defaults: { _controller: Balibali\BlogBundle:Backend:delete }
+    defaults: { _controller: Balibali\BlogBundle:Post:delete }
     requirements: { _method: delete }

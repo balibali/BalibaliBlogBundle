@@ -9,7 +9,7 @@ use Symfony\Component\Form\Form;
 use Bundle\Balibali\BlogBundle\Document\Post;
 use Bundle\Balibali\BlogBundle\Form\PostForm;
 
-class BackendController extends Controller
+class PostController extends Controller
 {
     public function indexAction()
     {
@@ -17,16 +17,33 @@ class BackendController extends Controller
             ->getRepository('BlogBundle:Post')->createQuery()
             ->sort('publishedAt', 'desc')
             ->execute();
+
+        return $this->render('Balibali/BlogBundle:Post:index:twig', array('posts' => $posts));
+    }
+
+    public function showAction($id)
+    {
+        $post = $this->getPostById($id);
+
+        return $this->render('Balibali/BlogBundle:Post:show:twig', array('post' => $post));
+    }
+
+    public function manageAction()
+    {
+        $posts = $this['doctrine.odm.mongodb.document_manager']
+            ->getRepository('BlogBundle:Post')->createQuery()
+            ->sort('publishedAt', 'desc')
+            ->execute();
         $form = $this->getDeleteForm();
 
-        return $this->render('Balibali/BlogBundle:Backend:index:twig', array('posts' => $posts, 'form' => $form));
+        return $this->render('Balibali/BlogBundle:Post:manage:twig', array('posts' => $posts, 'form' => $form));
     }
 
     public function newAction()
     {
         $form = $this->getPostForm();
 
-        return $this->render('Balibali/BlogBundle:Backend:new:twig', array('form' => $form));
+        return $this->render('Balibali/BlogBundle:Post:new:twig', array('form' => $form));
     }
 
     public function createAction()
@@ -37,14 +54,14 @@ class BackendController extends Controller
             return $this->redirect($this->generateUrl('balibali_blog_backend_index', array(), true));
         }
 
-        return $this->render('Balibali/BlogBundle:Backend:new:twig', array('form' => $form));
+        return $this->render('Balibali/BlogBundle:Post:new:twig', array('form' => $form));
     }
 
     public function editAction($id)
     {
         $form = $this->getPostForm($id);
 
-        return $this->render('Balibali/BlogBundle:Backend:edit:twig', array('form' => $form));
+        return $this->render('Balibali/BlogBundle:Post:edit:twig', array('form' => $form));
     }
 
     public function updateAction($id)
@@ -55,7 +72,7 @@ class BackendController extends Controller
             return $this->redirect($this->generateUrl('balibali_blog_backend_index', array(), true));
         }
 
-        return $this->render('Balibali/BlogBundle:Backend:edit:twig', array('form' => $form));
+        return $this->render('Balibali/BlogBundle:Post:edit:twig', array('form' => $form));
     }
 
     public function deleteAction($id)
