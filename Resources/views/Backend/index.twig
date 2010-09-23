@@ -10,6 +10,7 @@ backend index
 <tr>
 <td>{{ post.title }}</td>
 <td>{{ post.publishedAt.format('Y-m-d H:i:s') }}</td>
+<td><a href="{% route 'balibali_blog_backend_edit' with ['id': post.id] %}">Edit</a></td>
 </tr>
 {% endfor %}
 </table>

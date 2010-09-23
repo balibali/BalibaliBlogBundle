@@ -9,6 +9,7 @@ balibali_blog_backend_new:
 balibali_blog_backend_create:
     pattern:  /create
     defaults: { _controller: Balibali\BlogBundle:Backend:create }
+    requirements: { _method: post }
 
 balibali_blog_backend_edit:
     pattern:  /edit/:id

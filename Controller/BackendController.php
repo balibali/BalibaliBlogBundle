@@ -3,6 +3,7 @@
 namespace Bundle\Balibali\BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Bundle\Balibali\BlogBundle\Document\Post;
 use Bundle\Balibali\BlogBundle\Form\PostForm;
 
@@ -11,8 +12,7 @@ class BackendController extends Controller
     public function indexAction()
     {
         $posts = $this['doctrine.odm.mongodb.document_manager']
-            ->getRepository('Bundle\Balibali\BlogBundle\Document\Post')
-            ->createQuery()
+            ->getRepository('BlogBundle:Post')->createQuery()
             ->sort('publishedAt', 'desc')
             ->execute();
 
@@ -45,14 +45,42 @@ class BackendController extends Controller
         return $this->render('Balibali/BlogBundle:Backend:new:twig', array('form' => $form));
     }
 
-    public function editAction()
+    public function editAction($id)
     {
-        return $this->render('Balibali/BlogBundle:Backend:edit:twig');
+        $post = $this['doctrine.odm.mongodb.document_manager']
+            ->find('BlogBundle:Post', $id);
+
+        if (!$post) {
+            throw new NotFoundHttpException('The post does not exist.');
+        }
+
+        $form = new PostForm('post', $post, $this['validator']);
+
+        return $this->render('Balibali/BlogBundle:Backend:edit:twig', array('form' => $form));
     }
 
-    public function updateAction()
+    public function updateAction($id)
     {
-        return $this->render('Balibali/BlogBundle:Backend:edit:twig');
+        $post = $this['doctrine.odm.mongodb.document_manager']
+            ->find('BlogBundle:Post', $id);
+
+        if (!$post) {
+            throw new NotFoundHttpException('The post does not exist.');
+        }
+
+        $form = new PostForm('post', $post, $this['validator']);
+
+        $form->bind($this['request']->request->get($form->getName()));
+
+        if ($form->isValid()) {
+            $dm = $this['doctrine.odm.mongodb.document_manager'];
+            $dm->persist($post);
+            $dm->flush();
+
+            return $this->redirect($this->generateUrl('balibali_blog_backend_index', array(), true));
+        }
+
+        return $this->render('Balibali/BlogBundle:Backend:edit:twig', array('form' => $form));
     }
 
     public function deleteAction()

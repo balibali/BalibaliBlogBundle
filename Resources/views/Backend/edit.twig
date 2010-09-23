@@ -1,1 +1,10 @@
 backend edit
+
+<form action="{% route 'balibali_blog_backend_update' with ['id': form.getData.id] %}" method="post">
+{{ form.render|safe }}
+<input type="submit" value="Post">
+</form>
+
+<div>
+<a href="{% route 'balibali_blog_backend_index' %}">Back to Index</a>
+</div>
