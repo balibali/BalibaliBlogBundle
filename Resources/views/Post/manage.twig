@@ -14,7 +14,7 @@
 {% for post in posts %}
 <tr>
 <td>{{ post.title }}</td>
-<td>{{ post.publishedAt.format('Y-m-d H:i:s') }}</td>
+<td>{{ post.publishedAt.format('Y-m-d H:i') }}</td>
 <td><a href="{% route 'balibali_blog_backend_edit' with ['id': post.id] %}">Edit</a></td>
 <td>
 <form action="{% route 'balibali_blog_backend_delete' with ['id': post.id] %}" method="post">
