@@ -14,6 +14,7 @@ backend index
 <td><a href="{% route 'balibali_blog_backend_edit' with ['id': post.id] %}">Edit</a></td>
 <td>
 <form action="{% route 'balibali_blog_backend_delete' with ['id': post.id] %}" method="post">
+<input type="hidden" name="_method" value="delete">
 {{ form.renderHiddenFields|safe }}
 <input type="submit" value="Delete">
 </form>

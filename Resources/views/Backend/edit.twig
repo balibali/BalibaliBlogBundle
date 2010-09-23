@@ -1,6 +1,7 @@
 backend edit
 
 <form action="{% route 'balibali_blog_backend_update' with ['id': form.getData.id] %}" method="post">
+<input type="hidden" name="_method" value="put">
 {{ form.render|safe }}
 <input type="submit" value="Post">
 </form>
