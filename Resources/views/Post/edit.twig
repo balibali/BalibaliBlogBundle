@@ -1,4 +1,8 @@
-<h1>Edit Post</h1>
+{% extends "Balibali\\BlogBundle::layout" %}
+{% block title %}Edit Post{% endblock %}
+{% block content %}
+
+<h1>{% display title %}</h1>
 
 <form action="{% route 'balibali_blog_backend_update' with ['id': form.getData.id] %}" method="post">
 <input type="hidden" name="_method" value="put">
@@ -9,3 +13,5 @@
 <div>
 <a href="{% route 'balibali_blog_backend_index' %}">Back to Index</a>
 </div>
+
+{% endblock %}

@@ -1,4 +1,8 @@
-<h1>Manage Posts</h1>
+{% extends "Balibali\\BlogBundle::layout" %}
+{% block title %}Manage Posts{% endblock %}
+{% block content %}
+
+<h1>{% display title %}</h1>
 
 {% if posts %}
 <table>
@@ -27,3 +31,5 @@
 <div>
 <a href="{% route 'balibali_blog_backend_new' %}">New Post</a>
 </div>
+
+{% endblock %}

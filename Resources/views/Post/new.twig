@@ -1,4 +1,8 @@
-<h1>New Post</h1>
+{% extends "Balibali\\BlogBundle::layout" %}
+{% block title %}New Post{% endblock %}
+{% block content %}
+
+<h1>{% display title %}</h1>
 
 <form action="{% route 'balibali_blog_backend_create' %}" method="post">
 {{ form.render|safe }}
@@ -8,3 +12,5 @@
 <div>
 <a href="{% route 'balibali_blog_backend_index' %}">Back to Index</a>
 </div>
+
+{% endblock %}

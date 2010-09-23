@@ -1,4 +1,8 @@
-<h1>Recent Posts</h1>
+{% extends "Balibali\\BlogBundle::layout" %}
+{% block title %}Recent Posts{% endblock %}
+{% block content %}
+
+<h1>{% display title %}</h1>
 
 {% if posts %}
 <ul>
@@ -8,3 +12,5 @@
 {% endfor %}
 </ul>
 {% endif %}
+
+{% endblock %}
