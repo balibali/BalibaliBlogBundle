@@ -1,1 +1,10 @@
 backend new
+
+<form action="{% route 'balibali_blog_backend_create' %}" method="post">
+{{ form.render|safe }}
+<input type="submit" value="Post">
+</form>
+
+<div>
+<a href="{% route 'balibali_blog_backend_index' %}">Back to Index</a>
+</div>
