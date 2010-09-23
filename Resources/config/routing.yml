@@ -1,3 +1,6 @@
-balibali_blog_default:
-    pattern:  /
-    defaults: { _controller: Balibali\BlogBundle:Default:index }
+balibali_blog_frontend:
+    resource: Balibali/BlogBundle/Resources/config/routing_frontend.yml
+
+balibali_blog_backend:
+    resource: Balibali/BlogBundle/Resources/config/routing_backend.yml
+    prefix:   /backend
