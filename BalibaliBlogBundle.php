@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\BalibaliBlogBundle;
+namespace Bundle\Balibali\BlogBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
