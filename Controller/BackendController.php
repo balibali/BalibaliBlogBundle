@@ -4,6 +4,8 @@ namespace Bundle\Balibali\BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\ForbiddenHttpException;
+use Symfony\Component\Form\Form;
 use Bundle\Balibali\BlogBundle\Document\Post;
 use Bundle\Balibali\BlogBundle\Form\PostForm;
 
@@ -15,8 +17,9 @@ class BackendController extends Controller
             ->getRepository('BlogBundle:Post')->createQuery()
             ->sort('publishedAt', 'desc')
             ->execute();
+        $form = new Form('delete', new \stdClass, $this['validator']);
 
-        return $this->render('Balibali/BlogBundle:Backend:index:twig', array('posts' => $posts));
+        return $this->render('Balibali/BlogBundle:Backend:index:twig', array('posts' => $posts, 'form' => $form));
     }
 
     public function newAction()
@@ -83,8 +86,27 @@ class BackendController extends Controller
         return $this->render('Balibali/BlogBundle:Backend:edit:twig', array('form' => $form));
     }
 
-    public function deleteAction()
+    public function deleteAction($id)
     {
+        $post = $this['doctrine.odm.mongodb.document_manager']
+            ->find('BlogBundle:Post', $id);
+
+        if (!$post) {
+            throw new NotFoundHttpException('The post does not exist.');
+        }
+
+        $form = new Form('delete', new \stdClass, $this['validator']);
+
+        $form->bind($this['request']->request->get($form->getName()));
+
+        if (!$form->isValid()) {
+            throw new ForbiddenHttpException('CSRF token is not matched.');
+        }
+
+        $dm = $this['doctrine.odm.mongodb.document_manager'];
+        $dm->remove($post);
+        $dm->flush();
+
         return $this->redirect($this->generateUrl('balibali_blog_backend_index', array(), true));
     }
 }
