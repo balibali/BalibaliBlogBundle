@@ -16,3 +16,23 @@ th, td {
     margin-bottom: 1em;
     color: #666;
 }
+
+form * {
+    width: 100%;
+    max-width: 800px;
+}
+
+input {
+    border: solid 1px #999;
+    padding: 5px 0;
+}
+
+input[type=submit] {
+    padding: 0.5em;
+}
+
+textarea {
+    height: 20em;
+    border: solid 1px #999;
+    line-height: 1.5em;
+}

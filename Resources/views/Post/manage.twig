@@ -15,7 +15,11 @@
 <tr>
 <td>{{ post.title }}</td>
 <td>{{ post.publishedAt.format('Y-m-d H:i') }}</td>
-<td><a href="{% route 'balibali_blog_backend_edit' with ['id': post.id] %}">Edit</a></td>
+<td>
+<form action="{% route 'balibali_blog_backend_edit' with ['id': post.id] %}" method="get">
+<input type="submit" value="Edit">
+</form>
+</td>
 <td>
 <form action="{% route 'balibali_blog_backend_delete' with ['id': post.id] %}" method="post">
 <input type="hidden" name="_method" value="delete">

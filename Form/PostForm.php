@@ -7,6 +7,7 @@ use Symfony\Component\Form\TextField;
 use Symfony\Component\Form\TextareaField;
 use Symfony\Component\Validator\ValidatorInterface;
 use Bundle\Balibali\BlogBundle\Document\Post;
+use Bundle\Balibali\BlogBundle\Form\Renderer\DivRenderer;
 
 class PostForm extends Form
 {
@@ -17,5 +18,7 @@ class PostForm extends Form
         $this->add(new TextField('title'));
         $this->add(new TextField('slug'));
         $this->add(new TextareaField('body'));
+
+        $this->setRenderer(new DivRenderer());
     }
 }
