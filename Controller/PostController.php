@@ -21,9 +21,9 @@ class PostController extends Controller
         return $this->render('Balibali/BlogBundle:Post:index:twig', array('posts' => $posts));
     }
 
-    public function showAction($id)
+    public function showAction($year, $month, $slug)
     {
-        $post = $this->getPostById($id);
+        $post = $this->getPostBySlug($slug, $year, $month);
 
         return $this->render('Balibali/BlogBundle:Post:show:twig', array('post' => $post));
     }
@@ -105,6 +105,21 @@ class PostController extends Controller
         return $post;
     }
 
+    protected function getPostBySlug($slug, $year, $month)
+    {
+        $start = new \MongoDate(strtotime(sprintf('%04d-%02d-01', $year, $month)));
+        $end   = new \MongoDate(strtotime(sprintf('%04d-%02d-01 + 1month', $year, $month)));
+
+        $post = $this['doctrine.odm.mongodb.document_manager']->findOne('BlogBundle:Post',
+                array('slug' => $slug, 'publishedAt' => array('$gte' => $start, '$lt' => $end)));
+
+        if (!$post) {
+            throw new NotFoundHttpException('The post does not exist.');
+        }
+
+        return $post;
+    }
+
     protected function getPostForm($id = null)
     {
         if ($id === null) {
@@ -121,14 +136,28 @@ class PostController extends Controller
         $form->bind($this['request']->request->get($form->getName()));
 
         if ($form->isValid()) {
+            $post = $form->getData();
+
+            if ($this->isDuplicatedSlug($post)) {
+                $post->setSlug($post->getSlug().'-'.time());
+            }
+
             $dm = $this['doctrine.odm.mongodb.document_manager'];
-            $dm->persist($form->getData());
+            $dm->persist($post);
             $dm->flush();
 
             return true;
         }
 
         return false;
+    }
+
+    protected function isDuplicatedSlug($post)
+    {
+        $dup = $this['doctrine.odm.mongodb.document_manager']
+            ->findOne('BlogBundle:Post', array('slug' => $post->getSlug()));
+
+        return $dup && $dup->getId() !== $post->getId();
     }
 
     protected function getDeleteForm()

@@ -15,6 +15,7 @@ class PostForm extends Form
         parent::__construct($name, $object, $validator, $options);
 
         $this->add(new TextField('title'));
+        $this->add(new TextField('slug'));
         $this->add(new TextareaField('body'));
     }
 }

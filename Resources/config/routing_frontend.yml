@@ -3,5 +3,9 @@ balibali_blog_frontend_index:
     defaults: { _controller: Balibali\BlogBundle:Post:index }
 
 balibali_blog_frontend_show:
-    pattern:  /show/:id
+    pattern: /:year/:month/:slug
     defaults: { _controller: Balibali\BlogBundle:Post:show }
+    requirements:
+        year:  "\d{4}"
+        month: "\d{1,2}"
+        slug:  "[a-z0-9\-]+"

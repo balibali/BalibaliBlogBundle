@@ -10,6 +10,9 @@ class Post
     /** @Id */
     protected $id;
 
+    /** @String */
+    protected $slug;
+
     /**
      * @String
      * @Validation({ @NotBlank })
@@ -36,6 +39,26 @@ class Post
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function setSlug($slug)
+    {
+        $this->slug = $this->slugify($slug);
+    }
+
+    public function slugify($text, $default = 'blog-post')
+    {
+        $text = strtolower($text);
+        $text = preg_replace('/[^a-z0-9]/', '-', $text);
+        $text = preg_replace('/-+/', '-', $text);
+        $text = trim($text, '-');
+
+        return $text ? $text : $default;
     }
 
     public function getTitle()

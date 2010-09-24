@@ -8,7 +8,11 @@
 <ul>
 {% for post in posts %}
 <li>{{ post.publishedAt.format('Y-m-d') }}
-<a href="{% route 'balibali_blog_frontend_show' with ['id': post.id] %}">{{ post.title }}</a></li>
+<a href="{% route 'balibali_blog_frontend_show' with [
+'year':  post.publishedAt.format('Y'),
+'month': post.publishedAt.format('m'),
+'slug':  post.slug
+] %}">{{ post.title }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}
