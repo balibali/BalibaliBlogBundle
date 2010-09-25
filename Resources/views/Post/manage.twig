@@ -1,4 +1,5 @@
 {% extends layout %}
+{% block init %}{% javascript '//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' %}{% endblock %}
 {% block title %}Manage Posts{% endblock %}
 {% block content %}
 
@@ -21,7 +22,7 @@
 </form>
 </td>
 <td>
-<form action="{% route 'balibali_blog_backend_delete' with ['id': post.id] %}" method="post">
+<form action="{% route 'balibali_blog_backend_delete' with ['id': post.id] %}" method="post" class="delete">
 <input type="hidden" name="_method" value="delete">
 {{ form.renderHiddenFields|safe }}
 <input type="submit" value="Delete">
@@ -30,6 +31,7 @@
 </tr>
 {% endfor %}
 </table>
+<script type="text/javascript">$("form.delete").submit(function() {return confirm('Do you really want to delete the post?');});</script>
 {% endif %}
 
 <div>
