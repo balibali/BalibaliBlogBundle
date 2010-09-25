@@ -34,5 +34,6 @@ input[type=submit] {
 textarea {
     height: 20em;
     border: solid 1px #999;
+    padding: 0;
     line-height: 1.5em;
 }
