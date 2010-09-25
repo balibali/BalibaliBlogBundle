@@ -19,14 +19,14 @@ class PostController extends Controller
             ->sort('publishedAt', 'desc')
             ->execute();
 
-        return $this->render('Balibali/BlogBundle:Post:index:twig', array('posts' => $posts));
+        return $this->render('index', array('posts' => $posts));
     }
 
     public function showAction($year, $month, $slug)
     {
         $post = $this->getPostBySlug($slug, $year, $month);
 
-        return $this->render('Balibali/BlogBundle:Post:show:twig', array('post' => $post));
+        return $this->render('show', array('post' => $post));
     }
 
     public function manageAction()
@@ -37,14 +37,14 @@ class PostController extends Controller
             ->execute();
         $form = $this->getDeleteForm();
 
-        return $this->render('Balibali/BlogBundle:Post:manage:twig', array('posts' => $posts, 'form' => $form));
+        return $this->render('manage', array('posts' => $posts, 'form' => $form));
     }
 
     public function newAction()
     {
         $form = $this->getPostForm();
 
-        return $this->render('Balibali/BlogBundle:Post:new:twig', array('form' => $form));
+        return $this->render('new', array('form' => $form));
     }
 
     public function createAction()
@@ -55,14 +55,14 @@ class PostController extends Controller
             return $this->redirect($this->generateUrl('balibali_blog_backend_index', array(), true));
         }
 
-        return $this->render('Balibali/BlogBundle:Post:new:twig', array('form' => $form));
+        return $this->render('new', array('form' => $form));
     }
 
     public function editAction($id)
     {
         $form = $this->getPostForm($id);
 
-        return $this->render('Balibali/BlogBundle:Post:edit:twig', array('form' => $form));
+        return $this->render('edit', array('form' => $form));
     }
 
     public function updateAction($id)
@@ -73,7 +73,7 @@ class PostController extends Controller
             return $this->redirect($this->generateUrl('balibali_blog_backend_index', array(), true));
         }
 
-        return $this->render('Balibali/BlogBundle:Post:edit:twig', array('form' => $form));
+        return $this->render('edit', array('form' => $form));
     }
 
     public function deleteAction($id)
@@ -96,6 +96,10 @@ class PostController extends Controller
 
     public function render($view, array $parameters = array(), Response $response = null)
     {
+        if (strpos($view, ':') === false) {
+            $view = 'Balibali/BlogBundle:Post:'.$view.':twig';
+        }
+
         $parameters['layout'] =
             $this->container->hasParameter('balibali.blog.layout') ?
             $this->container->getParameter('balibali.blog.layout') :
