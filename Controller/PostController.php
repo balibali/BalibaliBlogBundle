@@ -14,12 +14,17 @@ class PostController extends Controller
 {
     public function indexAction()
     {
+        return $this->render('index');
+    }
+
+    public function listAction()
+    {
         $posts = $this['doctrine.odm.mongodb.document_manager']
             ->getRepository('BlogBundle:Post')->createQuery()
             ->sort('publishedAt', 'desc')
             ->execute();
 
-        return $this->render('index', array('posts' => $posts));
+        return $this->render('list', array('posts' => $posts));
     }
 
     public function showAction($year, $month, $slug)
