@@ -63,3 +63,12 @@ Installation
         Installing assets for Bundle\Balibali\BlogBundle
         Installing assets for Symfony\Bundle\WebProfilerBundle
 
+
+Configuration
+-------------
+
+Here is an example of using global layout:
+
+    // app/config/config.yml
+    parameters:
+        balibali.blog.layout: "::layout"

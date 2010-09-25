@@ -5,6 +5,7 @@ namespace Bundle\Balibali\BlogBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ForbiddenHttpException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use Bundle\Balibali\BlogBundle\Document\Post;
 use Bundle\Balibali\BlogBundle\Form\PostForm;
@@ -91,6 +92,16 @@ class PostController extends Controller
         $dm->flush();
 
         return $this->redirect($this->generateUrl('balibali_blog_backend_index', array(), true));
+    }
+
+    public function render($view, array $parameters = array(), Response $response = null)
+    {
+        $parameters['layout'] =
+            $this->container->hasParameter('balibali.blog.layout') ?
+            $this->container->getParameter('balibali.blog.layout') :
+            'Balibali\\BlogBundle::layout';
+
+        return parent::render($view, $parameters, $response);
     }
 
     protected function getPostById($id)
