@@ -1,4 +1,8 @@
 {% extends config.layout %}
+{% block head %}
+{% javascript '//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' %}
+{% javascript 'bundles/blog/form.js' %}
+{% endblock %}
 {% block title %}Edit Post{% endblock %}
 {% block content %}
 

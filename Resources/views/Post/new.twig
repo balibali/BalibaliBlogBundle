@@ -1,5 +1,8 @@
 {% extends config.layout %}
-{% block head %}{% javascript '//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' %}{% endblock %}
+{% block head %}
+{% javascript '//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' %}
+{% javascript 'bundles/blog/form.js' %}
+{% endblock %}
 {% block title %}New Post{% endblock %}
 {% block content %}
 
@@ -14,7 +17,7 @@
 <a href="{% route 'balibali_blog_backend_index' %}">Back to Index</a>
 </div>
 
-<script type="text/javascript">
+<script>
 var slug = true;
 $('#post_title').change(function() { if (slug) $('#post_slug').val(slugify($(this).val())); });
 $('#post_slug').change(function() { slug = false });
