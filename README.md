@@ -67,6 +67,13 @@ Installation
 Configuration
 -------------
 
+Set your blog title and description:
+
+    // app/config/config.yml
+    parameters:
+        balibali.blog.title: "Balibali Blog"
+        balibali.blog.description: "Blog written by Rimpei Ogawa."
+
 Here is an example of using global layout:
 
     // app/config/config.yml

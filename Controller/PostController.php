@@ -34,6 +34,16 @@ class PostController extends Controller
         return $this->render('show', array('post' => $post));
     }
 
+    public function feedAction()
+    {
+        $posts = $this['doctrine.odm.mongodb.document_manager']
+            ->getRepository('BlogBundle:Post')->createQuery()
+            ->sort('publishedAt', 'desc')
+            ->execute();
+
+        return $this->render('Balibali/BlogBundle:Post:feed', array('posts' => $posts));
+    }
+
     public function manageAction()
     {
         $posts = $this['doctrine.odm.mongodb.document_manager']
@@ -105,12 +115,26 @@ class PostController extends Controller
             $view = 'Balibali/BlogBundle:Post:'.$view.':twig';
         }
 
-        $parameters['layout'] =
-            $this->container->hasParameter('balibali.blog.layout') ?
-            $this->container->getParameter('balibali.blog.layout') :
-            'Balibali\\BlogBundle::layout';
+        $parameters['config'] = array(
+            'layout'      => $this->getParameter('layout', 'Balibali\\BlogBundle::layout'),
+            'title'       => $this->getParameter('title', ''),
+            'description' => $this->getParameter('description', ''),
+        );
 
         return parent::render($view, $parameters, $response);
+    }
+
+    protected function getParameter($name, $default = null)
+    {
+        if (strpos($name, '.') === false) {
+            $name = 'balibali.blog.'.$name;
+        }
+
+        if ($this->container->hasParameter($name)) {
+            return $this->container->getParameter($name);
+        } else {
+            return $default;
+        }
     }
 
     protected function getPostById($id)

@@ -9,3 +9,8 @@ balibali_blog_frontend_show:
         year:  "\d{4}"
         month: "\d{1,2}"
         slug:  "[a-z0-9\-]+"
+
+balibali_blog_frontend_feed:
+    pattern: /feed.:_format
+    defaults: { _controller: Balibali\BlogBundle:Post:feed }
+    requirements: { _format: xml }

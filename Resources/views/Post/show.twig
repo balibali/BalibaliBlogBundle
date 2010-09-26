@@ -1,4 +1,5 @@
-{% extends layout %}
+{% extends config.layout %}
+{% block head %}<link rel="alternate" type="application/rss+xml" title="Recent Posts" href="{% route 'balibali_blog_frontend_feed' with ['_format': 'xml'] %}">{% endblock %}
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
 
