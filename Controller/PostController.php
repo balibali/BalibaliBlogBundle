@@ -31,6 +31,10 @@ class PostController extends Controller
     {
         $post = $this->getPostBySlug($slug, $year, $month);
 
+        if ($post->getFormat() === 'markdown' && isset($this->container['markdownParser'])) {
+            $post->setBody($this->container['markdownParser']->transform($post->getBody()));
+        }
+
         return $this->render('show', array('post' => $post));
     }
 
@@ -172,7 +176,9 @@ class PostController extends Controller
             $post = $this->getPostById($id);
         }
 
-        return new PostForm('post', $post, $this['validator']);
+        $options = array('useFormat' => isset($this->container['markdownParser']));
+
+        return new PostForm('post', $post, $this['validator'], $options);
     }
 
     protected function processPostForm($form)

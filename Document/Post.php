@@ -31,6 +31,9 @@ class Post
      */
     protected $publishedAt;
 
+    /** @String */
+    protected $format;
+
     public function __construct()
     {
         $this->publishedAt = new \DateTime();
@@ -84,5 +87,17 @@ class Post
     public function getPublishedAt()
     {
         return $this->publishedAt;
+    }
+
+    public function getFormat()
+    {
+        return $this->format ? $this->format : 'html';
+    }
+
+    public function setFormat($format)
+    {
+        if ($format === 'markdown') {
+            $this->format = $format;
+        }
     }
 }

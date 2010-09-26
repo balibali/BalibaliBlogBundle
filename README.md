@@ -79,3 +79,30 @@ Here is an example of using global layout:
     // app/config/config.yml
     parameters:
         balibali.blog.layout: "::layout"
+
+
+Markdown Format
+---------------
+
+Use knplabs' MarkdownBundle http://github.com/knplabs/MarkdownBundle.
+
+1.  Add this bundle to your src/Bundle dir:
+
+        $ git submodule add git://github.com/knplabs/MarkdownBundle.git src/Bundle/MarkdownBundle
+
+2.  Add this bundle and bundle dir to your application kernel:
+
+        // app/AppKernel.php
+        public function registerBundles()
+        {
+            $bundles = array(
+                ...
+                new Bundle\MarkdownBundle\MarkdownBundle(),
+                ...
+            );
+        }
+
+3.  Enable the markdown parser service:
+
+        // app/config/config.yml
+        markdown.parser: ~

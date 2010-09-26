@@ -17,7 +17,8 @@ th, td {
     color: #666;
 }
 
-form * {
+input[type=text],
+textarea {
     width: 100%;
     max-width: 800px;
 }
