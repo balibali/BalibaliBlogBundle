@@ -45,6 +45,12 @@ class PostController extends Controller
             ->sort('publishedAt', 'desc')
             ->execute();
 
+        foreach ($posts as $post) {
+            if ($post->getFormat() === 'markdown' && isset($this->container['markdownParser'])) {
+                $post->setBody($this->container['markdownParser']->transform($post->getBody()));
+            }
+        }
+
         return $this->render('Balibali/BlogBundle:Post:feed', array('posts' => $posts));
     }
 
