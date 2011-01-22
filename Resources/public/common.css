@@ -8,11 +8,11 @@ th, td {
     padding: 0.5em;
 }
 
-.post {
+article {
     margin-bottom: 1em;
 }
 
-.post .date {
+article .date {
     margin-bottom: 1em;
     color: #666;
 }

@@ -5,11 +5,13 @@
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
 
-<div class="post">
+<article>
+<header>
 <h1>{{ block('title') }}</h1>
-<div class="date">{{ post.publishedAt.format('F d, Y') }}</div>
-<div class="body">{{ post.body|raw }}</div>
-</div>
+<p class="date"><time pubdate datetime="{{ post.publishedAt.format('c') }}">{{ post.publishedAt.format('F d, Y') }}</time></p>
+</header>
+{{ post.body|raw }}
+</article>
 
 <div class="back-link">
 <a href="{{ path('balibali_blog_frontend_index') }}">Back to Index</a>
