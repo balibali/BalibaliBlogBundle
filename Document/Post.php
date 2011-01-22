@@ -3,35 +3,35 @@
 namespace Bundle\Balibali\BlogBundle\Document;
 
 /**
- * @Document(collection="posts")
+ * @mongodb:Document(collection="posts")
  */
 class Post
 {
-    /** @Id */
+    /** @mongodb:Id */
     protected $id;
 
-    /** @String */
+    /** @mongodb:String */
     protected $slug;
 
     /**
-     * @String
+     * @mongodb:String
      * @Validation({ @NotBlank })
      */
     protected $title;
 
     /**
-     * @String
+     * @mongodb:String
      * @Validation({ @NotBlank })
      */
     protected $body;
 
     /**
-     * @Date
-     * @Index(order="desc")
+     * @mongodb:Date
+     * @mongodb:Index(order="desc")
      */
     protected $publishedAt;
 
-    /** @String */
+    /** @mongodb:String */
     protected $format;
 
     public function __construct()

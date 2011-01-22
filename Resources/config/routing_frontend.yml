@@ -1,16 +1,16 @@
 balibali_blog_frontend_index:
     pattern:  /
-    defaults: { _controller: Balibali\BlogBundle:Post:index }
+    defaults: { _controller: BalibaliBlogBundle:Post:index }
 
 balibali_blog_frontend_show:
-    pattern: /:year/:month/:slug
-    defaults: { _controller: Balibali\BlogBundle:Post:show }
+    pattern: /{year}/{month}/{slug}
+    defaults: { _controller: BalibaliBlogBundle:Post:show }
     requirements:
         year:  "\d{4}"
         month: "\d{1,2}"
         slug:  "[a-z0-9\-]+"
 
 balibali_blog_frontend_feed:
-    pattern: /feed.:_format
-    defaults: { _controller: Balibali\BlogBundle:Post:feed }
+    pattern: /feed.{_format}
+    defaults: { _controller: BalibaliBlogBundle:Post:feed }
     requirements: { _format: xml }

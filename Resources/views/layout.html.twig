@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width">
 <title>{% block title %}{% endblock %}{% if config.title %} - {{ config.title }}{% endif %}</title>
 {% block head %}{% endblock %}
-{% stylesheet 'bundles/blog/common.css' %}
-{% stylesheets %}
-{% javascripts %}
+<link rel="stylesheet" href="{{ asset('bundles/blog/common.css') }}">
 </head>
 <body>
 {% block content %}{% endblock %}

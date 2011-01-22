@@ -19,10 +19,10 @@ class PostController extends Controller
 
     public function listAction()
     {
-        $posts = $this['doctrine.odm.mongodb.document_manager']
-            ->getRepository('BlogBundle:Post')->createQuery()
+        $posts = $this->get('doctrine.odm.mongodb.document_manager')
+            ->createQueryBuilder('BalibaliBlogBundle:Post')
             ->sort('publishedAt', 'desc')
-            ->execute();
+            ->getQuery()->execute();
 
         return $this->render('list', array('posts' => $posts));
     }
@@ -31,8 +31,8 @@ class PostController extends Controller
     {
         $post = $this->getPostBySlug($slug, $year, $month);
 
-        if ($post->getFormat() === 'markdown' && isset($this->container['markdownParser'])) {
-            $post->setBody($this->container['markdownParser']->transform($post->getBody()));
+        if ($post->getFormat() === 'markdown' && $this->container->has('markdownParser')) {
+            $post->setBody($this->container->get('markdownParser')->transform($post->getBody()));
         }
 
         return $this->render('show', array('post' => $post));
@@ -40,26 +40,27 @@ class PostController extends Controller
 
     public function feedAction()
     {
-        $posts = $this['doctrine.odm.mongodb.document_manager']
-            ->getRepository('BlogBundle:Post')->createQuery()
+        $posts = $this->get('doctrine.odm.mongodb.document_manager')
+            ->createQueryBuilder('BalibaliBlogBundle:Post')
             ->sort('publishedAt', 'desc')
-            ->execute();
+            ->limit(10)
+            ->getQuery()->execute();
 
         foreach ($posts as $post) {
-            if ($post->getFormat() === 'markdown' && isset($this->container['markdownParser'])) {
-                $post->setBody($this->container['markdownParser']->transform($post->getBody()));
+            if ($post->getFormat() === 'markdown' && $this->container->has('markdownParser')) {
+                $post->setBody($this->container->get('markdownParser')->transform($post->getBody()));
             }
         }
 
-        return $this->render('Balibali/BlogBundle:Post:feed', array('posts' => $posts));
+        return $this->render('BalibaliBlogBundle:Post:feed.xml.twig', array('posts' => $posts));
     }
 
     public function manageAction()
     {
-        $posts = $this['doctrine.odm.mongodb.document_manager']
-            ->getRepository('BlogBundle:Post')->createQuery()
+        $posts = $this->get('doctrine.odm.mongodb.document_manager')
+            ->createQueryBuilder('BalibaliBlogBundle:Post')
             ->sort('publishedAt', 'desc')
-            ->execute();
+            ->getQuery()->execute();
         $form = $this->getDeleteForm();
 
         return $this->render('manage', array('posts' => $posts, 'form' => $form));
@@ -107,12 +108,12 @@ class PostController extends Controller
 
         // CSRF protection
         $form = $this->getDeleteForm();
-        $form->bind($this['request']->request->get($form->getName()));
+        $form->bind($this->get('request')->request->get($form->getName()));
         if (!$form->isValid()) {
             throw new ForbiddenHttpException('CSRF token is not matched.');
         }
 
-        $dm = $this['doctrine.odm.mongodb.document_manager'];
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
         $dm->remove($post);
         $dm->flush();
 
@@ -122,11 +123,11 @@ class PostController extends Controller
     public function render($view, array $parameters = array(), Response $response = null)
     {
         if (strpos($view, ':') === false) {
-            $view = 'Balibali/BlogBundle:Post:'.$view.':twig';
+            $view = 'BalibaliBlogBundle:Post:'.$view.'.html.twig';
         }
 
         $parameters['config'] = array(
-            'layout'      => $this->getParameter('layout', 'Balibali\\BlogBundle::layout'),
+            'layout'      => $this->getParameter('layout', 'BalibaliBlogBundle::layout.html.twig'),
             'title'       => $this->getParameter('title', ''),
             'description' => $this->getParameter('description', ''),
         );
@@ -149,8 +150,8 @@ class PostController extends Controller
 
     protected function getPostById($id)
     {
-        $post = $this['doctrine.odm.mongodb.document_manager']
-            ->find('BlogBundle:Post', $id);
+        $post = $this->get('doctrine.odm.mongodb.document_manager')
+            ->find('BalibaliBlogBundle:Post', $id);
 
         if (!$post) {
             throw new NotFoundHttpException('The post does not exist.');
@@ -164,8 +165,9 @@ class PostController extends Controller
         $start = new \MongoDate(strtotime(sprintf('%04d-%02d-01', $year, $month)));
         $end   = new \MongoDate(strtotime(sprintf('%04d-%02d-01 + 1month', $year, $month)));
 
-        $post = $this['doctrine.odm.mongodb.document_manager']->findOne('BlogBundle:Post',
-                array('slug' => $slug, 'publishedAt' => array('$gte' => $start, '$lt' => $end)));
+        $post = $this->get('doctrine.odm.mongodb.document_manager')
+            ->getRepository('BalibaliBlogBundle:Post')
+            ->findOneBy(array('slug' => $slug, 'publishedAt' => array('$gte' => $start, '$lt' => $end)));
 
         if (!$post) {
             throw new NotFoundHttpException('The post does not exist.');
@@ -182,14 +184,23 @@ class PostController extends Controller
             $post = $this->getPostById($id);
         }
 
-        $options = array('useFormat' => isset($this->container['markdownParser']));
+        $options = array('useFormat' => $this->container->has('markdownParser'));
 
-        return new PostForm('post', $post, $this['validator'], $options);
+        $context = $this->get('form.default_context');
+        $options += array(
+            'csrf_protection'   => $context->isCsrfProtectionEnabled(),
+            'csrf_field_name'   => $context->getCsrfFieldName(),
+            'csrf_secrets'      => $context->getCsrfSecrets(),
+            'validation_groups' => $context->getValidationGroups(),
+            'field_factory'     => $context->getFieldFactory(),
+        );
+
+        return new PostForm('post', $post, $this->get('validator'), $options);
     }
 
     protected function processPostForm($form)
     {
-        $form->bind($this['request']->request->get($form->getName()));
+        $form->bind($this->get('request')->request->get($form->getName()));
 
         if ($form->isValid()) {
             $post = $form->getData();
@@ -198,7 +209,7 @@ class PostController extends Controller
                 $post->setSlug($post->getSlug().'-'.time());
             }
 
-            $dm = $this['doctrine.odm.mongodb.document_manager'];
+            $dm = $this->get('doctrine.odm.mongodb.document_manager');
             $dm->persist($post);
             $dm->flush();
 
@@ -210,14 +221,15 @@ class PostController extends Controller
 
     protected function isDuplicatedSlug($post)
     {
-        $dup = $this['doctrine.odm.mongodb.document_manager']
-            ->findOne('BlogBundle:Post', array('slug' => $post->getSlug()));
+        $dup = $this->get('doctrine.odm.mongodb.document_manager')
+            ->getRepository('BalibaliBlogBundle:Post')
+            ->findOneBy(array('slug' => $post->getSlug()));
 
         return $dup && $dup->getId() !== $post->getId();
     }
 
     protected function getDeleteForm()
     {
-        return new Form('delete', new \stdClass, $this['validator']);
+        return $this->get('form.default_context')->getForm('delete');
     }
 }

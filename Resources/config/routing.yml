@@ -1,6 +1,6 @@
 balibali_blog_frontend:
-    resource: Balibali/BlogBundle/Resources/config/routing_frontend.yml
+    resource: @BalibaliBlogBundle/Resources/config/routing_frontend.yml
 
 balibali_blog_backend:
-    resource: Balibali/BlogBundle/Resources/config/routing_backend.yml
+    resource: @BalibaliBlogBundle/Resources/config/routing_backend.yml
     prefix:   /backend

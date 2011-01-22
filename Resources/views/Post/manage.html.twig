@@ -1,11 +1,13 @@
 {% extends config.layout %}
-{% block head %}{% javascript '//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' %}{% endblock %}
+{% block head %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+{% endblock %}
 {% block title %}Manage Posts{% endblock %}
 {% block content %}
 
-<h1>{% display title %}</h1>
+<h1>{{ block('title') }}</h1>
 
-{% if posts %}
+{% if posts.count %}
 <table>
 <tr>
 <th>Title</th>
@@ -17,14 +19,14 @@
 <td>{{ post.title }}</td>
 <td>{{ post.publishedAt.format('Y-m-d H:i') }}</td>
 <td>
-<form action="{% route 'balibali_blog_backend_edit' with ['id': post.id] %}" method="get">
+<form action="{{ path('balibali_blog_backend_edit', { 'id': post.id }) }}" method="get">
 <input type="submit" value="Edit">
 </form>
 </td>
 <td>
-<form action="{% route 'balibali_blog_backend_delete' with ['id': post.id] %}" method="post" class="delete">
+<form action="{{ path('balibali_blog_backend_delete', { 'id': post.id }) }}" method="post" class="delete">
 <input type="hidden" name="_method" value="delete">
-{{ form.renderHiddenFields|safe }}
+{{ form_hidden(form) }}
 <input type="submit" value="Delete">
 </form>
 </td>
@@ -35,7 +37,7 @@
 {% endif %}
 
 <div class="back-link">
-<a href="{% route 'balibali_blog_backend_new' %}">New Post</a>
+<a href="{{ path('balibali_blog_backend_new') }}">New Post</a>
 </div>
 
 {% endblock %}

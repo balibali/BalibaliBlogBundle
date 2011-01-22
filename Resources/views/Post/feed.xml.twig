@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+  <channel>
+    <title>{{ config.title }}</title>
+    <link>{{ url('balibali_blog_frontend_index') }}</link>
+    <description>{{ config.description }}</description>
+{% for post in posts %}
+    <item>
+        <title>{{ post.title }}</title>
+        <link>{{ url('balibali_blog_frontend_show',
+                     {
+                       'year':  post.publishedAt.format('Y'),
+                       'month': post.publishedAt.format('m'),
+                       'slug':  post.slug
+                     }) }}</link>
+        <pubDate>{{ post.publishedAt.format('r') }}</pubDate>
+        <description>{{ post.body }}</description>
+    </item>
+{% endfor %}
+  </channel>
+</rss>

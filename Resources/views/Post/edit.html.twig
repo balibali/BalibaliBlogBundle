@@ -1,0 +1,21 @@
+{% extends config.layout %}
+{% block head %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="{{ asset('bundles/blog/form.js') }}"></script>
+{% endblock %}
+{% block title %}Edit Post{% endblock %}
+{% block content %}
+
+<h1>{{ block('title') }}</h1>
+
+<form action="{{ path('balibali_blog_backend_update', { 'id': form.getData.id }) }}" method="post">
+<input type="hidden" name="_method" value="put">
+{{ form_field(form) }}
+<input type="submit" value="Post">
+</form>
+
+<div class="back-link">
+<a href="{{ path('balibali_blog_backend_index') }}">Back to Index</a>
+</div>
+
+{% endblock %}

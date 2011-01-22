@@ -1,0 +1,12 @@
+{% extends config.layout %}
+{% block head %}
+<link rel="alternate" type="application/rss+xml" title="Recent Posts" href="{{ url('balibali_blog_frontend_feed', { '_format': 'xml' }) }}">
+{% endblock %}
+{% block title %}Recent Posts{% endblock %}
+{% block content %}
+
+<h1>{{ block('title') }}</h1>
+
+{% render 'BalibaliBlogBundle:Post:list' %}
+
+{% endblock %}
