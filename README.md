@@ -28,7 +28,7 @@ Installation
             );
         }
 
-3.  Enable DoctrineMongoDBBundle and TwigBundle:
+3.  Enable DoctrineMongoDBBundle:
 
         // app/AppKernel.php
         public function registerBundles()
@@ -36,24 +36,23 @@ Installation
             $bundles = array(
                 ...
                 new Symfony\Bundle\DoctrineMongoDBBundle\DoctrineMongoDBBundle(),
-                new Symfony\Bundle\TwigBundle\TwigBundle(),
                 ...
             );
         }
 
         // app/config/config.yml
-        twig.config:
-            auto_reload: true
-
         doctrine_odm.mongodb:
             server: "mongodb://localhost:27017"
             default_database: symfony_%kernel.environment%
+            auto_generate_hydrator_classes: true
+            mappings:
+                BalibaliBlogBundle: ~
 
 4.  Add routing rules to your application:
 
         // app/config/routing.yml
         blog:
-            resource: Balibali/BlogBundle/Resources/config/routing.yml
+            resource: @BalibaliBlogBundle/Resources/config/routing.yml
             prefix:   /blog
 
 5.  Install assets by assets:install command:
@@ -78,7 +77,7 @@ Here is an example of using global layout:
 
     // app/config/config.yml
     parameters:
-        balibali.blog.layout: "::layout"
+        balibali.blog.layout: "::layout.html.twig"
 
 
 Markdown Format
