@@ -1,7 +1,7 @@
 {% if posts.count %}
 <ul>
 {% for post in posts %}
-<li>{{ post.publishedAt.format('Y-m-d') }}
+<li><time datetime="{{ post.publishedAt.format('c') }}">{{ post.publishedAt.format('Y-m-d') }}</time>
 <a href="{{ path('balibali_blog_frontend_show',
 {
   'year':  post.publishedAt.format('Y'),

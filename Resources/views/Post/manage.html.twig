@@ -17,7 +17,7 @@
 {% for post in posts %}
 <tr>
 <td>{{ post.title }}</td>
-<td>{{ post.publishedAt.format('Y-m-d H:i') }}</td>
+<td><time datetime="{{ post.publishedAt.format('c') }}">{{ post.publishedAt.format('Y-m-d H:i') }}</time></td>
 <td>
 <form action="{{ path('balibali_blog_backend_edit', { 'id': post.id }) }}" method="get">
 <input type="submit" value="Edit">
