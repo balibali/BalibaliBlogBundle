@@ -52,7 +52,10 @@ class PostController extends Controller
             }
         }
 
-        return $this->render('BalibaliBlogBundle:Post:feed.xml.twig', array('posts' => $posts));
+        $response = $this->render('BalibaliBlogBundle:Post:feed.xml.twig', array('posts' => $posts));
+        $response->headers->set('Content-Type', 'application/rss+xml');
+
+        return $response;
     }
 
     public function manageAction()
