@@ -26,3 +26,8 @@ balibali_blog_backend_delete:
     pattern:  /posts/{id}
     defaults: { _controller: BalibaliBlogBundle:Post:delete }
     requirements: { _method: delete }
+
+balibali_blog_backend_preview:
+    pattern:  /posts/preview
+    defaults: { _controller: BalibaliBlogBundle:Post:preview }
+    requirements: { _method: post }

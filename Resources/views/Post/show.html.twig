@@ -1,14 +1,7 @@
 {% extends config.layout %}
 {% block head %}
 <link rel="alternate" type="application/rss+xml" title="Recent Posts" href="{{ url('balibali_blog_frontend_feed', { '_format': 'xml' }) }}">
-<link rel="stylesheet" href="{{ asset('bundles/balibaliblog/syntaxhighlighter.css?20110123') }}">
-<script src="{{ asset('bundles/balibaliblog/syntaxhighlighter.js?20110123') }}"></script>
-<script>
-SyntaxHighlighter.defaults['auto-links'] = false;
-SyntaxHighlighter.defaults['gutter']     = false;
-SyntaxHighlighter.defaults['toolbar']    = false;
-SyntaxHighlighter.all();
-</script>
+{% include "BalibaliBlogBundle:Post:syntaxhighlight.html.twig" %}
 {% endblock %}
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
@@ -25,4 +18,5 @@ SyntaxHighlighter.all();
 <a href="{{ path('balibali_blog_frontend_index') }}">Back to Index</a>
 </div>
 
+<script>SyntaxHighlighter.all();</script>
 {% endblock %}

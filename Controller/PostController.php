@@ -118,6 +118,20 @@ class PostController extends Controller
         return $this->redirect($this->generateUrl('balibali_blog_backend_index', array(), true));
     }
 
+    public function previewAction()
+    {
+        $post = new Post();
+        $post->setBody($this->get('request')->request->get('body'));
+        $post->setFormat($this->get('request')->request->get('format'));
+
+        $this->transformPostBody($post);
+
+        $response = $this->container->get('response');
+        $response->setContent($post->getBody());
+
+        return $response;
+    }
+
     public function render($view, array $parameters = array(), Response $response = null)
     {
         if (strpos($view, ':') === false) {

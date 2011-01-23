@@ -1,0 +1,18 @@
+<section id="preview" style="display: none">
+<h1>Preview</h1>
+<article>
+<header><h1></h1></header>
+<div class="body"></div>
+</article>
+</section>
+
+<script>
+$("#preview_button").click(function() { $.post("{{ path('balibali_blog_backend_preview') }}", { body: $("#post_body").val(), format: $("#post_format").val() },
+  function(data) {
+    $("#preview article h1").text($("#post_title").val());
+    $('#preview .body').html(data);
+    $("#preview").show();
+    SyntaxHighlighter.highlight();
+  });
+});
+</script>

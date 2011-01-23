@@ -2,6 +2,7 @@
 {% block head %}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
 <script src="{{ asset('bundles/balibaliblog/form.js?20110123') }}"></script>
+{% include "BalibaliBlogBundle:Post:syntaxhighlight.html.twig" %}
 {% endblock %}
 {% block title %}New Post{% endblock %}
 {% block content %}
@@ -11,7 +12,10 @@
 <form action="{{ path('balibali_blog_backend_create') }}" method="post">
 {{ form_field(form) }}
 <input type="submit" value="Post">
+<input type="button" value="Preview" id="preview_button">
 </form>
+
+{% include "BalibaliBlogBundle:Post:preview.html.twig" %}
 
 <div class="back-link">
 <a href="{{ path('balibali_blog_backend_index') }}">Back to Index</a>

@@ -27,3 +27,7 @@ SyntaxHighlighter.brushes.Yaml=function(){this.regexList=[{regex:SyntaxHighlight
 
 // js
 (function(){function b(){var a=SyntaxHighlighter.regexLib;this.regexList=[{regex:a.multiLineDoubleQuotedString,css:"string"},{regex:a.multiLineSingleQuotedString,css:"string"},{regex:a.singleLineCComments,css:"comments"},{regex:a.multiLineCComments,css:"comments"},{regex:/\s*#.*/gm,css:"preprocessor"},{regex:RegExp(this.getKeywords("break case catch continue default delete do else false for function if in instanceof new null return super switch this throw true try typeof var while with"),"gm"),css:"keyword"}]; this.forHtmlScript(a.scriptScriptTags)}typeof require!="undefined"&&(SyntaxHighlighter=require("shCore").SyntaxHighlighter);b.prototype=new SyntaxHighlighter.Highlighter;b.aliases=["js","jscript","javascript"];SyntaxHighlighter.brushes.JScript=b;typeof exports!="undefined"&&(exports.Brush=b)})();
+
+SyntaxHighlighter.defaults['auto-links'] = false;
+SyntaxHighlighter.defaults['gutter']     = false;
+SyntaxHighlighter.defaults['toolbar']    = false;
