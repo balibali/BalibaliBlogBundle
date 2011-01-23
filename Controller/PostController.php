@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ForbiddenHttpException;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Form;
 use Bundle\Balibali\BlogBundle\Document\Post;
 use Bundle\Balibali\BlogBundle\Form\PostForm;
 
@@ -31,9 +30,7 @@ class PostController extends Controller
     {
         $post = $this->getPostBySlug($slug, $year, $month);
 
-        if ($post->getFormat() === 'markdown' && $this->container->has('markdownParser')) {
-            $post->setBody($this->container->get('markdownParser')->transform($post->getBody()));
-        }
+        $this->transformPostBody($post);
 
         return $this->render('show', array('post' => $post));
     }
@@ -47,9 +44,7 @@ class PostController extends Controller
             ->getQuery()->execute();
 
         foreach ($posts as $post) {
-            if ($post->getFormat() === 'markdown' && $this->container->has('markdownParser')) {
-                $post->setBody($this->container->get('markdownParser')->transform($post->getBody()));
-            }
+            $this->transformPostBody($post);
         }
 
         $response = $this->render('BalibaliBlogBundle:Post:feed.xml.twig', array('posts' => $posts));
@@ -234,5 +229,20 @@ class PostController extends Controller
     protected function getDeleteForm()
     {
         return $this->get('form.default_context')->getForm('delete');
+    }
+
+    protected function transformPostBody(Post $post)
+    {
+        if ($post->getFormat() === 'markdown' && $this->container->has('markdownParser')) {
+            $body = $post->getBody();
+
+            // Markdown
+            $body = $this->container->get('markdownParser')->transform($body);
+
+            // SyntaxHighlighter
+            $body = preg_replace('!<pre><code>[/*#;\s]*(brush:.*?)\n(.*?)</code></pre>!s', '<pre class="$1">$2</pre>', $body);
+
+            $post->setBody($body);
+        }
     }
 }
