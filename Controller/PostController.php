@@ -197,7 +197,7 @@ class PostController extends Controller
         }
 
         $options = array(
-            'useFormat'     => $this->container->has('markdownParser'),
+            'use_format'    => $this->container->has('markdownParser'),
             'csrf_provider' => $this->container->get('form.csrf_provider'),
         );
 

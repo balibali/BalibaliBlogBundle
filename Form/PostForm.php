@@ -13,7 +13,7 @@ class PostForm extends Form
 {
     public function __construct($name, Post $object, ValidatorInterface $validator, array $options = array())
     {
-        $this->addOption('useFormat', true);
+        $this->addOption('use_format', true);
 
         parent::__construct($name, $object, $validator, $options);
 
@@ -21,7 +21,7 @@ class PostForm extends Form
         $this->add(new TextField('slug'));
         $this->add(new TextareaField('body'));
 
-        if ($this->getOption('useFormat')) {
+        if ($this->getOption('use_format')) {
             $formats = array(
                 'markdown' => 'Markdown',
                 'html'     => 'HTML',
