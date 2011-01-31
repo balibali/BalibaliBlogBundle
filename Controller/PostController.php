@@ -196,15 +196,9 @@ class PostController extends Controller
             $post = $this->getPostById($id);
         }
 
-        $options = array('useFormat' => $this->container->has('markdownParser'));
-
-        $context = $this->get('form.default_context');
-        $options += array(
-            'csrf_protection'   => $context->isCsrfProtectionEnabled(),
-            'csrf_field_name'   => $context->getCsrfFieldName(),
-            'csrf_secrets'      => $context->getCsrfSecrets(),
-            'validation_groups' => $context->getValidationGroups(),
-            'field_factory'     => $context->getFieldFactory(),
+        $options = array(
+            'useFormat'     => $this->container->has('markdownParser'),
+            'csrf_provider' => $this->container->get('form.csrf_provider'),
         );
 
         return new PostForm('post', $post, $this->get('validator'), $options);

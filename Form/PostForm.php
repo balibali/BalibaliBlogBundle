@@ -15,10 +15,6 @@ class PostForm extends Form
     {
         $this->addOption('useFormat', true);
 
-        if (!isset($options['csrf_protection'])) {
-            $options['csrf_protection'] = true;
-        }
-
         parent::__construct($name, $object, $validator, $options);
 
         $this->add(new TextField('title'));
