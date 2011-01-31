@@ -4,7 +4,7 @@ namespace Bundle\Balibali\BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\ForbiddenHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use Bundle\Balibali\BlogBundle\Document\Post;
 use Bundle\Balibali\BlogBundle\Form\PostForm;
@@ -108,7 +108,7 @@ class PostController extends Controller
         $form = $this->getDeleteForm();
         $form->bind($this->get('request')->request->get($form->getName()));
         if (!$form->isValid()) {
-            throw new ForbiddenHttpException('CSRF token is not matched.');
+            throw new AccessDeniedException('The CSRF token is invalid');
         }
 
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
