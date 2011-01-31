@@ -126,7 +126,7 @@ class PostController extends Controller
 
         $this->transformPostBody($post);
 
-        $response = $this->container->get('response');
+        $response = $this->get('response');
         $response->setContent($post->getBody());
 
         return $response;
@@ -197,8 +197,8 @@ class PostController extends Controller
         }
 
         $options = array(
-            'use_format'    => $this->container->has('markdownParser'),
-            'csrf_provider' => $this->container->get('form.csrf_provider'),
+            'use_format'    => $this->has('markdownParser'),
+            'csrf_provider' => $this->get('form.csrf_provider'),
         );
 
         return new PostForm('post', $post, $this->get('validator'), $options);
@@ -241,11 +241,11 @@ class PostController extends Controller
 
     protected function transformPostBody(Post $post)
     {
-        if ($post->getFormat() === 'markdown' && $this->container->has('markdownParser')) {
+        if ($post->getFormat() === 'markdown' && $this->has('markdownParser')) {
             $body = $post->getBody();
 
             // Markdown
-            $body = $this->container->get('markdownParser')->transform($body);
+            $body = $this->get('markdownParser')->transform($body);
 
             // SyntaxHighlighter
             $body = preg_replace('!<pre><code>[/*#;\s]*(brush:.*?)\n(.*?)</code></pre>!s', '<pre class="$1">$2</pre>', $body);
