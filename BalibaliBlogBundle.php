@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\Balibali\BlogBundle;
+namespace Balibali\BlogBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

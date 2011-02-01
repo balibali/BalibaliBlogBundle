@@ -4,31 +4,31 @@ README
 Installation
 ------------
 
-1.  Add this bundle to your src/Bundle/Balibali dir:
+1.  Add this bundle to your src/Balibali dir:
 
-        $ mkdir src/Bundle/Balibali
-        $ git submodule add git://github.com/balibali/BalibaliBlogBundle.git src/Bundle/Balibali/BlogBundle
+        $ mkdir src/Balibali
+        $ git submodule add git://github.com/balibali/BalibaliBlogBundle.git src/Balibali/BlogBundle
 
-2.  Add this bundle and bundle dir to your application kernel:
+2. Add Balibali namespace to your autoloader:
+
+        // app/autoload.php
+        $loader->registerNamespaces(array(
+            ...
+            'Balibali' => __DIR__.'/../src',
+        ));
+
+3.  Add this bundle to your application kernel:
 
         // app/AppKernel.php
         public function registerBundles()
         {
             $bundles = array(
                 ...
-                new Bundle\Balibali\BlogBundle\BalibaliBlogBundle(),
+                new Balibali\BlogBundle\BalibaliBlogBundle(),
             );
         }
 
-        public function registerBundleDirs()
-        {
-            return array(
-                ...
-                'Bundle\\Balibali' => __DIR__.'/../src/Bundle/Balibali',
-            );
-        }
-
-3.  Enable DoctrineMongoDBBundle:
+4.  Enable DoctrineMongoDBBundle:
 
         // app/AppKernel.php
         public function registerBundles()
@@ -48,19 +48,18 @@ Installation
             mappings:
                 BalibaliBlogBundle: ~
 
-4.  Add routing rules to your application:
+5.  Add routing rules to your application:
 
         // app/config/routing.yml
         blog:
             resource: @BalibaliBlogBundle/Resources/config/routing.yml
             prefix:   /blog
 
-5.  Install assets by assets:install command:
+6.  Install assets by assets:install command:
 
         $ app/console assets:install web
-        Installing assets for Symfony\Bundle\FrameworkBundle
-        Installing assets for Bundle\Balibali\BlogBundle
-        Installing assets for Symfony\Bundle\WebProfilerBundle
+        ...
+        Installing assets for Balibali\BlogBundle
 
 
 Configuration

@@ -1,13 +1,13 @@
 <?php
 
-namespace Bundle\Balibali\BlogBundle\Form;
+namespace Balibali\BlogBundle\Form;
 
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\TextField;
 use Symfony\Component\Form\TextareaField;
 use Symfony\Component\Form\ChoiceField;
 use Symfony\Component\Validator\ValidatorInterface;
-use Bundle\Balibali\BlogBundle\Document\Post;
+use Balibali\BlogBundle\Document\Post;
 
 class PostForm extends Form
 {

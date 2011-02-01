@@ -1,13 +1,13 @@
 <?php
 
-namespace Bundle\Balibali\BlogBundle\Controller;
+namespace Balibali\BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
-use Bundle\Balibali\BlogBundle\Document\Post;
-use Bundle\Balibali\BlogBundle\Form\PostForm;
+use Balibali\BlogBundle\Document\Post;
+use Balibali\BlogBundle\Form\PostForm;
 
 class PostController extends Controller
 {

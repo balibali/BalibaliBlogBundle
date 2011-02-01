@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\Balibali\BlogBundle\Tests\Controller;
+namespace Balibali\BlogBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

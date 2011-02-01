@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\Balibali\BlogBundle\Document;
+namespace Balibali\BlogBundle\Document;
 
 /**
  * @mongodb:Document(collection="posts")
