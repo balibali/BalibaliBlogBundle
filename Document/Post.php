@@ -15,13 +15,13 @@ class Post
 
     /**
      * @mongodb:String
-     * @Validation({ @NotBlank })
+     * @validation:NotBlank()
      */
     protected $title;
 
     /**
      * @mongodb:String
-     * @Validation({ @NotBlank })
+     * @validation:NotBlank()
      */
     protected $body;
 
