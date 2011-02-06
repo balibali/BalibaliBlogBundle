@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use Balibali\BlogBundle\Document\Post;
 use Balibali\BlogBundle\Form\PostForm;
+use Symfony\Component\Form\Form;
 
 class PostController extends Controller
 {
@@ -197,11 +198,11 @@ class PostController extends Controller
         }
 
         $options = array(
-            'use_format'    => $this->has('markdownParser'),
-            'csrf_provider' => $this->get('form.csrf_provider'),
+            'data'       => $post,
+            'use_format' => $this->has('markdownParser'),
         );
 
-        return new PostForm('post', $post, $this->get('validator'), $options);
+        return PostForm::create($this->get('form.context'), 'post', $options);
     }
 
     protected function processPostForm($form)
@@ -236,7 +237,7 @@ class PostController extends Controller
 
     protected function getDeleteForm()
     {
-        return $this->get('form.default_context')->getForm('delete');
+        return Form::create($this->get('form.context'), 'delete');
     }
 
     protected function transformPostBody(Post $post)

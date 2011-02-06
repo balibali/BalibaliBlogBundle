@@ -11,11 +11,9 @@ use Balibali\BlogBundle\Document\Post;
 
 class PostForm extends Form
 {
-    public function __construct($name, Post $object, ValidatorInterface $validator, array $options = array())
+    protected function configure()
     {
         $this->addOption('use_format', true);
-
-        parent::__construct($name, $object, $validator, $options);
 
         $this->add(new TextField('title'));
         $this->add(new TextField('slug'));
